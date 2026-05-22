@@ -108,7 +108,11 @@ docker container prune
 ### Execute a command inside a running container
 
 ```bash
+# Interactive (allocates a TTY — use for shells)
 docker exec -it <container> <command>
+
+# Non-interactive (for one-off commands)
+docker exec <container> <command>
 ```
 
 **Examples:**
