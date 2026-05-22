@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📦 npm & Yarn Commands
+# 📦 npm, Yarn, pnpm & Bun Commands
 
 </div>
 
@@ -21,6 +21,8 @@
 - [Workspaces (Monorepo)](#-workspaces-monorepo)
 - [Audit & Security](#-audit--security)
 - [Cache & Config](#-cache--config)
+- [pnpm](#-pnpm)
+- [Bun](#-bun)
 
 ---
 
@@ -290,6 +292,104 @@ yarn config set registry https://registry.npmjs.org/
 registry=https://registry.npmjs.org/
 save-exact=true
 package-lock=true
+```
+
+---
+
+## ⚡ pnpm
+
+> Fast, disk-space-efficient package manager. Uses a content-addressable store (one copy of each version per machine).
+
+### Install pnpm
+
+```bash
+npm install -g pnpm
+```
+
+### Common pnpm commands
+
+| Action | Command |
+|--------|---------|
+| Install all dependencies | `pnpm install` |
+| Add dependency | `pnpm add lodash` |
+| Add dev dependency | `pnpm add -D eslint` |
+| Remove package | `pnpm remove lodash` |
+| Run script | `pnpm run build` |
+| Update packages | `pnpm update` |
+| List outdated | `pnpm outdated` |
+| Install globally | `pnpm add -g typescript` |
+| List global packages | `pnpm list -g` |
+
+```bash
+pnpm install                         # Install from package.json
+pnpm add lodash                      # Add dependency
+pnpm add -D jest                     # Add dev dependency
+pnpm add lodash@4.17.21              # Exact version
+pnpm remove lodash                   # Remove package
+pnpm run dev                         # Run dev script
+pnpm dlx create-react-app my-app     # Like npx (without installing)
+pnpm store status                    # Check content store
+pnpm store prune                     # Clean unused store entries
+```
+
+### pnpm workspaces (monorepo)
+
+```bash
+# pnpm-workspace.yaml is the config file
+pnpm install                         # Install all workspace deps
+pnpm add lodash --filter my-app      # Add to specific workspace
+pnpm run build --filter my-app       # Run script in specific workspace
+pnpm run build --filter "..."        # Run in all workspaces
+pnpm ls --filter my-app              # List deps in workspace
+```
+
+---
+
+## 🧡 Bun
+
+> All-in-one JavaScript runtime & toolkit: bundler, transpiler, test runner, and package manager.
+
+### Install Bun
+
+```bash
+# macOS / Linux
+curl -fsSL https://bun.sh/install | bash
+
+# Windows (PowerShell)
+powershell -c "irm bun.sh/install.ps1 | iex"
+```
+
+### Common Bun commands
+
+| Action | Command |
+|--------|---------|
+| Install all dependencies | `bun install` |
+| Add dependency | `bun add lodash` |
+| Add dev dependency | `bun add -d eslint` |
+| Remove package | `bun remove lodash` |
+| Run script | `bun run build` |
+| Run a file directly | `bun run index.ts` |
+| Run tests | `bun test` |
+| Bundle project | `bun build ./src/index.ts --outdir ./dist` |
+
+```bash
+bun install                          # Install from package.json
+bun add lodash                       # Add dependency
+bun add -d jest                      # Add dev dependency
+bun remove lodash                    # Remove package
+bun run dev                          # Run dev script
+bun x create-next-app my-app         # Like npx
+bun upgrade                          # Upgrade bun itself
+bun --version                        # Show bun version
+```
+
+### Bun test runner
+
+```bash
+bun test                             # Run all tests
+bun test --watch                     # Watch mode
+bun test src/utils.test.ts           # Run specific test file
+bun test --coverage                  # With code coverage
 ```
 
 ---

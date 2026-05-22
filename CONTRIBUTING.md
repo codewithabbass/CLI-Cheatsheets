@@ -1,4 +1,4 @@
-# Contributing to Commands Guide
+# Contributing to CLI-Cheatsheets
 
 Thank you for your interest in contributing! This guide explains how to add commands, fix errors, and submit improvements.
 
@@ -29,7 +29,7 @@ There are several ways to help:
 ## File Structure
 
 ```
-Commands Guide/
+CLI-Cheatsheets/
 ├── README.md                   ← Homepage (do not remove any links)
 ├── CONTRIBUTING.md             ← This file
 └── commands/

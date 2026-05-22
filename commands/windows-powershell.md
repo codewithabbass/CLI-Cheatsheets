@@ -22,6 +22,7 @@
 - [PowerShell Pipelines & Objects](#-powershell-pipelines--objects)
 - [PowerShell Modules](#-powershell-modules)
 - [Scripting Essentials](#-scripting-essentials)
+- [Windows Package Manager (winget)](#-windows-package-manager-winget)
 
 ---
 
@@ -391,4 +392,60 @@ Set-ExecutionPolicy Bypass -Scope Process  # Bypass for current session only
 
 ---
 
-[← npm/Yarn](npm-yarn.md) | [Back to Home](../README.md)
+## 📦 Windows Package Manager (winget)
+
+> `winget` is the official Windows Package Manager CLI, built into Windows 11 and available for Windows 10 via the App Installer.
+
+### Search & install
+
+```powershell
+winget search nodejs                     # Search for a package
+winget show Microsoft.VisualStudioCode   # Show package details
+winget install Microsoft.VisualStudioCode          # Install a package
+winget install --id Git.Git -e           # Install exact match by ID
+winget install --id Git.Git -e --silent  # Silent install (no UI)
+```
+
+### Upgrade & uninstall
+
+```powershell
+winget upgrade                           # List all upgradable packages
+winget upgrade --all                     # Upgrade everything
+winget upgrade --id Microsoft.PowerShell # Upgrade specific package
+winget uninstall --id Git.Git            # Uninstall a package
+```
+
+### List installed packages
+
+```powershell
+winget list                              # All installed packages managed by winget
+winget list --id Git.Git                 # Check if a specific package is installed
+```
+
+### Export & import (reproducible setups)
+
+```powershell
+# Export installed packages to a file (great for dotfiles)
+winget export -o winget-packages.json
+
+# Install all packages from a file on a new machine
+winget import -i winget-packages.json --ignore-unavailable
+```
+
+### Common package IDs
+
+| Package | winget ID |
+|---------|----------|
+| Git | `Git.Git` |
+| Node.js LTS | `OpenJS.NodeJS.LTS` |
+| VS Code | `Microsoft.VisualStudioCode` |
+| Windows Terminal | `Microsoft.WindowsTerminal` |
+| PowerShell 7 | `Microsoft.PowerShell` |
+| Python | `Python.Python.3.12` |
+| 7-Zip | `7zip.7zip` |
+| Postman | `Postman.Postman` |
+| Docker Desktop | `Docker.DockerDesktop` |
+
+> Use `winget search <name>` to find the exact ID for any package.
+
+--- | [Back to Home](../README.md)

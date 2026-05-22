@@ -20,6 +20,8 @@
 - [Tagging](#-tagging)
 - [Log & History](#-log--history)
 - [Diff & Comparison](#-diff--comparison)
+- [Worktrees](#-worktrees)
+- [Bisect](#-bisect)
 - [Submodules](#-submodules)
 
 ---
@@ -275,6 +277,44 @@ git diff <hash1>..<hash2>                # Compare commits
 git diff --name-only                     # Only filenames
 git show <commit-hash>                   # Show commit changes
 git show HEAD                            # Show last commit
+```
+
+---
+
+## 🌳 Worktrees
+
+> Check out multiple branches simultaneously in separate directories without cloning again.
+
+```bash
+git worktree add ../my-app-hotfix hotfix/1.2.1   # Check out branch in new dir
+git worktree add -b feature/new-ui ../new-ui     # Create new branch in new dir
+git worktree list                                 # List all worktrees
+git worktree remove ../my-app-hotfix             # Remove worktree
+git worktree prune                                # Clean stale worktree refs
+```
+
+> Useful for reviewing PRs, running tests on another branch, or hot-fixing without stashing.
+
+---
+
+## 🔎 Bisect
+
+> Binary search through commit history to find which commit introduced a bug.
+
+```bash
+git bisect start                         # Begin bisect session
+git bisect bad                           # Mark current commit as bad
+git bisect good v1.0.0                   # Mark a known-good commit
+
+# Git checks out a midpoint commit — test it, then mark:
+git bisect bad                           # This commit is bad
+git bisect good                          # This commit is good
+
+# Repeat until git finds the first bad commit
+git bisect reset                         # End session, return to HEAD
+
+# Automate with a test script
+git bisect run npm test                  # Runs script; exit 0=good, exit 1=bad
 ```
 
 ---

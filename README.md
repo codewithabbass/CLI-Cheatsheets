@@ -1,14 +1,14 @@
 <div align="center">
 
-# 📖 Commands Guide
+# 📖 CLI-Cheatsheets
 
 **Your one-stop reference for developer commands — copy, paste, and ship faster.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Stars](https://img.shields.io/github/stars/codewithabbass/commands-guide?style=social)](https://github.com/codewithabbass/commands-guide)
+[![Stars](https://img.shields.io/github/stars/codewithabbass/cli-cheatsheets?style=social)](https://github.com/codewithabbass/cli-cheatsheets)
 
-> A curated, well-documented collection of commands across Docker, Linux, Git, Kubernetes, npm/Yarn, and Windows/PowerShell — with clear descriptions and real-world examples.
+> A curated, well-documented collection of commands across Docker, Linux, Git, Kubernetes, npm/Yarn/pnpm, and Windows/PowerShell — with clear descriptions and real-world examples.
 
 </div>
 
@@ -22,7 +22,7 @@
 | [🐧 Linux](commands/linux.md) | File system, process management, networking | Navigation, Permissions, System |
 | [🌿 Git](commands/git.md) | Version control, branching, collaboration | Init, Commit, Branch, Remote |
 | [☸️ Kubernetes](commands/kubernetes.md) | Cluster management, deployments, services | kubectl, Pods, Deployments |
-| [📦 npm / Yarn](commands/npm-yarn.md) | Package management, scripts, publishing | Install, Scripts, Publish |
+| [📦 npm / Yarn / pnpm](commands/npm-yarn.md) | Package management, scripts, publishing | Install, Scripts, Publish |
 | [🪟 Windows / PowerShell](commands/windows-powershell.md) | Windows CLI and PowerShell automation | Files, Processes, Network |
 
 ---

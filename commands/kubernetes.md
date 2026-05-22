@@ -19,6 +19,7 @@
 - [Volumes & Storage](#-volumes--storage)
 - [Scaling & Rollouts](#-scaling--rollouts)
 - [Logs & Debugging](#-logs--debugging)
+- [Diff & Wait](#-diff--wait)
 - [Context & Config](#-context--config)
 - [RBAC](#-rbac)
 
@@ -272,7 +273,47 @@ kubectl run debug --image=busybox -it --rm           # Temp debug pod
 
 ---
 
-## 🔧 Context & Config
+## � Diff & Wait
+
+### kubectl diff — preview changes before applying
+
+```bash
+# Show what would change if you applied a manifest (dry-run diff)
+kubectl diff -f deployment.yaml
+
+# Diff all files in a directory
+kubectl diff -f ./manifests/
+
+# Diff from stdin
+cat deployment.yaml | kubectl diff -f -
+```
+
+> Requires server-side dry-run support (Kubernetes ≥ 1.18). Outputs a unified diff showing what will be added/modified/removed.
+
+---
+
+### kubectl wait — block until a condition is met
+
+```bash
+# Wait for all pods in a deployment to be ready
+kubectl wait --for=condition=available deployment/nginx --timeout=120s
+
+# Wait for a pod to be ready
+kubectl wait --for=condition=ready pod/<pod-name> --timeout=60s
+
+# Wait for a job to complete
+kubectl wait --for=condition=complete job/my-job --timeout=300s
+
+# Wait for a pod to be deleted
+kubectl wait --for=delete pod/<pod-name> --timeout=60s
+
+# Wait across all pods matching a label
+kubectl wait --for=condition=ready pod -l app=nginx --timeout=60s
+```
+
+> Useful in CI/CD pipelines to ensure resources are healthy before proceeding.
+
+---
 
 ```bash
 kubectl config get-contexts                          # List contexts

@@ -16,6 +16,8 @@
 - [Volumes & Networks](#-volumes--networks)
 - [Registry & Hub](#-registry--hub)
 - [Logs & Debugging](#-logs--debugging)
+- [Build & Multi-platform (Buildx)](#-build--multi-platform-buildx)
+- [Security Scanning (Scout)](#-security-scanning-scout)
 - [System Cleanup](#-system-cleanup)
 
 ---
@@ -414,6 +416,58 @@ docker system prune -a --volumes
 
 ```bash
 docker system df
+```
+
+---
+
+## 🔧 Build & Multi-platform (Buildx)
+
+> Docker Buildx uses BuildKit for advanced build features, including multi-platform images.
+
+```bash
+# Create a new builder with multi-platform support
+docker buildx create --name mybuilder --use
+
+# Check available builders
+docker buildx ls
+
+# Build and push a multi-platform image (linux/amd64 + linux/arm64)
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t myuser/my-app:latest \
+  --push .
+
+# Build for local use (single platform)
+docker buildx build --load -t my-app:latest .
+
+# Inspect a multi-platform manifest
+docker buildx imagetools inspect myuser/my-app:latest
+
+# Remove builder
+docker buildx rm mybuilder
+```
+
+---
+
+## 🔍 Security Scanning (Scout)
+
+> `docker scout` provides vulnerability scanning for images (requires Docker Desktop or `docker scout` plugin).
+
+```bash
+# Quick vulnerability overview
+docker scout quickview my-app:latest
+
+# Full CVE list
+docker scout cves my-app:latest
+
+# Recommendations for fixing issues
+docker scout recommendations my-app:latest
+
+# Compare two images
+docker scout compare my-app:v1 my-app:v2
+
+# Scan image from Docker Hub
+docker scout quickview nginx:latest
 ```
 
 ---
