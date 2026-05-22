@@ -119,7 +119,7 @@ docker exec <container> <command>
 
 ```bash
 # Open a bash shell inside a container
-docker exec my-nginx bash
+docker exec -it my-nginx bash
 
 # Run a one-off command
 docker exec my-nginx ls /etc/nginx
