@@ -108,7 +108,7 @@ docker container prune
 ### Execute a command inside a running container
 
 ```bash
-docker exec <container> <command>
+docker exec -it <container> <command>
 ```
 
 **Examples:**
