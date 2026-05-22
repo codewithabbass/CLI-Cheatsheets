@@ -18,6 +18,7 @@
 - [Logs & Debugging](#-logs--debugging)
 - [Build & Multi-platform (Buildx)](#-build--multi-platform-buildx)
 - [Security Scanning (Scout)](#-security-scanning-scout)
+- [Node.js Dockerization](#-nodejs-dockerization)
 - [System Cleanup](#-system-cleanup)
 
 ---
@@ -477,6 +478,179 @@ docker scout compare my-app:v1 my-app:v2
 # Scan image from Docker Hub
 docker scout quickview nginx:latest
 ```
+
+---
+
+## 🟢 Node.js Dockerization
+
+### Dockerfile (production-ready)
+
+```dockerfile
+# Use official Node.js LTS image on Alpine (small footprint)
+FROM node:20-alpine AS base
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files first (leverages layer caching)
+COPY package*.json ./
+
+# Install production dependencies only
+RUN npm ci --omit=dev
+
+# Copy the rest of the source code
+COPY . .
+
+# Expose the port your app listens on
+EXPOSE 3000
+
+# Run as non-root user for security
+USER node
+
+# Start the application
+CMD ["node", "server.js"]
+```
+
+> ✅ **Best practices applied:** Alpine base image, `npm ci` for reproducible installs, layer caching via early COPY of `package*.json`, non-root `USER node`.
+
+---
+
+### Multi-stage Dockerfile (with build step)
+
+> Use this when you have a TypeScript build, bundler (Vite, esbuild), or similar compile step.
+
+```dockerfile
+# ── Stage 1: Build ──────────────────────────────────────────
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build          # e.g. tsc, vite build, etc.
+
+# ── Stage 2: Production image ───────────────────────────────
+FROM node:20-alpine AS production
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copy only the compiled output from the builder stage
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+USER node
+
+CMD ["node", "dist/server.js"]
+```
+
+---
+
+### .dockerignore
+
+> Always include a `.dockerignore` to keep images lean and avoid leaking secrets.
+
+```
+node_modules
+npm-debug.log
+dist
+.env
+.env.*
+.git
+.gitignore
+*.md
+coverage
+.nyc_output
+```
+
+---
+
+### docker-compose.yml (Node.js + PostgreSQL)
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://postgres:secret@db:5432/mydb
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
+```
+
+---
+
+### Common Node.js Docker workflow
+
+```bash
+# 1. Build the image
+docker build -t my-node-app:latest .
+
+# 2. Run the container (map port, pass env file)
+docker run -d \
+  -p 3000:3000 \
+  --env-file .env \
+  --name my-node-app \
+  my-node-app:latest
+
+# 3. Stream logs
+docker logs -f my-node-app
+
+# 4. Open a shell for debugging
+docker exec -it my-node-app sh
+
+# 5. Run npm scripts inside the container
+docker exec my-node-app npm run migrate
+
+# 6. Rebuild after code changes (Compose)
+docker compose up -d --build
+
+# 7. Remove container and image when done
+docker rm -f my-node-app
+docker rmi my-node-app:latest
+```
+
+---
+
+### Dev mode with live reload (bind mount)
+
+```bash
+docker run -it --rm \
+  -p 3000:3000 \
+  -v "$(pwd)":/app \
+  -v /app/node_modules \
+  -e NODE_ENV=development \
+  --name my-node-dev \
+  node:20-alpine \
+  sh -c "npm install && npm run dev"
+```
+
+> The `-v /app/node_modules` anonymous volume prevents the host's `node_modules` from overwriting the container's.
 
 ---
 
