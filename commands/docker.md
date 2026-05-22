@@ -108,14 +108,14 @@ docker container prune
 ### Execute a command inside a running container
 
 ```bash
-docker exec -it <container> <command>
+docker exec <container> <command>
 ```
 
 **Examples:**
 
 ```bash
 # Open a bash shell inside a container
-docker exec -it my-nginx bash
+docker exec my-nginx bash
 
 # Run a one-off command
 docker exec my-nginx ls /etc/nginx
