@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Stars](https://img.shields.io/github/stars/yourusername/commands-guide?style=social)](https://github.com/yourusername/commands-guide)
+[![Stars](https://img.shields.io/github/stars/codewithabbass/commands-guide?style=social)](https://github.com/codewithabbass/commands-guide)
 
 > A curated, well-documented collection of commands across Docker, Linux, Git, Kubernetes, npm/Yarn, and Windows/PowerShell — with clear descriptions and real-world examples.
 
