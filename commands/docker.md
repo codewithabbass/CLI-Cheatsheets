@@ -149,10 +149,14 @@ docker stats
 
 ## 🖼️ Image Management
 
-### List images
+### List images (equivalent commands)
 
 ```bash
 docker images
+```
+
+```bash
+docker image ls
 ```
 
 ---
